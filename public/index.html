@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.Gnome - Tap to Earn</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="profile-section">
+            <div class="profile-card">
+                <div class="profile-image">
+                    <img id="userPhoto" src="https://via.placeholder.com/50" alt="Profile">
+                </div>
+                <div class="profile-info">
+                    <h2 id="userName">Loading...</h2>
+                    <p id="userStatus" class="status">Gnome Tapper</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-card">
+            <div class="stat-item coins">
+                <div class="stat-icon">💰</div>
+                <div class="stat-content">
+                    <span id="coinCount">0</span>
+                    <span class="label">Coins</span>
+                </div>
+            </div>
+            <div class="stat-item power">
+                <div class="stat-icon">⚡</div>
+                <div class="stat-content">
+                    <span id="clickPower">1</span>
+                    <span class="label">Click Power</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <button id="tapButton" class="tap-button animate__animated">
+                <div class="tap-inner">
+                    <span class="tap-icon">🪙</span>
+                    <span class="tap-text">TAP!</span>
+                </div>
+                <div class="tap-ripple"></div>
+            </button>
+        </div>
+
+        <div class="upgrade-section">
+            <button id="upgradeButton" class="upgrade-button">
+                <div class="upgrade-content">
+                    <span class="upgrade-icon">⚡</span>
+                    <span class="upgrade-text">
+                        Upgrade Power (<span id="upgradeCost">100</span> coins)
+                    </span>
+                </div>
+            </button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
