@@ -6,23 +6,45 @@ const compression = require('compression');
 require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
-// Security middleware
+// Security middleware with Telegram-friendly CSP
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "'unsafe-inline'", "telegram.org", "*.telegram.org"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "telegram.org", "*.telegram.org", "cdn.jsdelivr.net", "cdnjs.cloudflare.com"],
             connectSrc: ["'self'", "telegram.org", "*.telegram.org"],
-            imgSrc: ["'self'", "data:", "telegram.org", "*.telegram.org"],
-            styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com"],
+            imgSrc: ["'self'", "data:", "telegram.org", "*.telegram.org", "t.me"],
+            styleSrc: ["'self'", "'unsafe-inline'", "fonts.googleapis.com", "cdnjs.cloudflare.com"],
             fontSrc: ["'self'", "fonts.gstatic.com"],
         },
     },
 }));
-app.use(compression()); // Compress responses
-app.use(cors());
+
+// Enable compression for all responses
+app.use(compression());
+
+// Enable CORS for Telegram domains
+app.use(cors({
+    origin: function(origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if(!origin) return callback(null, true);
+        
+        // Allow Telegram domains
+        const allowedOrigins = [
+            /^https:\/\/.*\.telegram\.org$/,
+            /^https:\/\/.*\.t\.me$/
+        ];
+        
+        if (allowedOrigins.some(regex => regex.test(origin))) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
+
 app.use(express.json());
 app.use(express.static('public'));
 
@@ -117,6 +139,8 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something went wrong!' });
 });
 
+// Start server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });

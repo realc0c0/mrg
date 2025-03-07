@@ -1,24 +1,36 @@
-# Tap to Earn - Telegram Mini App
+# Mr.Gnome - Telegram Mini App
 
-A fun tap-to-earn game built as a Telegram Mini App where users can tap to earn coins and upgrade their clicking power.
+A tap-to-earn game built as a Telegram Mini App where users can tap to earn coins and upgrade their clicking power.
 
 ## Features
-- Tap to earn coins
-- Upgrade click power for faster earnings
-- Smooth animations and haptic feedback
-- Persistent user progress
-- Responsive design that follows Telegram theme
+- Modern dark theme UI with material design
+- User profile integration with Telegram
+- Coin earning system with animations
+- Power upgrade system
+- Responsive design for all devices
+- Progress ranks (Novice to Legendary Gnome)
 
-## Setup
+## Quick Start
 
 1. Install dependencies:
 ```bash
 npm install
 ```
 
-2. Create a `.env` file with your configuration:
-```
+2. Set up environment variables by copying `.env.example` to `.env`:
+```bash
+# Server Configuration
 PORT=3000
+NODE_ENV=development
+
+# Security
+CORS_ENABLED=true
+
+# App Settings
+MIN_CLICK_INTERVAL=100
+INITIAL_CLICK_POWER=1
+BASE_UPGRADE_COST=100
+UPGRADE_COST_MULTIPLIER=1.5
 ```
 
 3. Start the server:
@@ -31,9 +43,67 @@ For development with auto-reload:
 npm run dev
 ```
 
-## Telegram Mini App Integration
+## Deployment
 
-1. Create your bot through @BotFather on Telegram
-2. Set up your Mini App through BotFather
-3. Configure your Mini App URL to point to your hosted server
-4. Update the bot's menu button to launch the Mini App
+### Deploy to Heroku
+1. Create a new Heroku app
+2. Connect your GitHub repository
+3. Add the following buildpack:
+   - `heroku/nodejs`
+4. Set environment variables in Heroku dashboard
+5. Deploy from GitHub
+
+### Deploy to Railway
+1. Create new Railway project
+2. Connect your GitHub repository
+3. Railway will automatically detect Node.js
+4. Set environment variables in Railway dashboard
+5. Deploy
+
+### Deploy to Vercel
+1. Import your GitHub repository
+2. Set environment variables in Vercel dashboard
+3. Deploy
+
+## Telegram Bot Setup
+
+1. Create a new bot through [@BotFather](https://t.me/BotFather)
+2. Set up your Mini App:
+   ```
+   /newapp
+   ```
+3. Set your deployed URL as the Web App URL
+4. Add the Mini App button to your bot:
+   ```
+   /mybots > (select your bot) > Bot Settings > Menu Button
+   ```
+
+## Project Structure
+```
+├── public/               # Static files
+│   ├── index.html       # Main HTML file
+│   ├── styles.css       # Styles
+│   └── app.js          # Frontend JavaScript
+├── server.js            # Express server
+├── package.json         # Dependencies
+└── .env                # Environment variables
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| PORT | Server port | 3000 |
+| NODE_ENV | Environment mode | development |
+| CORS_ENABLED | Enable CORS | true |
+| MIN_CLICK_INTERVAL | Minimum ms between clicks | 100 |
+| INITIAL_CLICK_POWER | Starting click power | 1 |
+| BASE_UPGRADE_COST | Base cost for upgrades | 100 |
+| UPGRADE_COST_MULTIPLIER | Cost increase multiplier | 1.5 |
+
+## Security
+- CORS configured for Telegram domains
+- Helmet.js for security headers
+- Content Security Policy (CSP) configured
+- Rate limiting for click actions
+- Input validation for all API endpoints
